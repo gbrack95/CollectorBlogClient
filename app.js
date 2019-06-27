@@ -21,12 +21,42 @@ var app = new Vue({
         newCategory: "",
         newImage: "",
         newText: "",
+        secretKey: "",
         serverUrl: "https://gbrack-collectors-blog.herokuapp.com",
     },
     created: function () {
         this.getPosts();
+        window.addEventListener("keyup", this.keyEvents);
     },
     methods: {
+        delPost: function (post) {
+            
+        },
+        keyEvents: function (event) {
+            console.log(event.which);
+            if (event.which == 68) {
+                if (this.secretKey == "") {
+                    this.secretKey = "D"
+                } else {
+                    this.secretKey = "";
+                }
+            } else if (event.which == 69) {
+                if (this.secretKey == "D") {
+                    this.secretKey = "DE"
+                } else {
+                    this.secretKey = "";
+                }
+            } else if (event.which == 76) {
+                if (this.secretKey == "DE") {
+                    this.secretKey = "DEL"
+                } else {
+                    this.secretKey = "";
+                }
+            } else {
+                this.secretKey = "";
+            }
+            console.log(this.secretKey);
+        },
         getPosts: function () {
             fetch(this.serverUrl + "/posts").then(function(res) {
                 res.json().then(function(data) {
@@ -70,6 +100,9 @@ var app = new Vue({
         }
     },
     computed: {
+        showDel: function () {
+            return this.secretKey == "DEL";
+        },
         sortedPosts: function () {
             if (this.selectedCategory == "all") {
                 return this.posts;

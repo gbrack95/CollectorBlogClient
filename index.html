@@ -45,6 +45,10 @@
                                                 <div class="headline">
                                                     {{post.title}}
                                                 </div>
+                                                <v-spacer></v-spacer>
+                                                <v-btn icon v-if="showDel" @click="delPost(post)">
+                                                    <v-icon>delete</v-icon>
+                                                </v-btn>
                                             </v-card-title>
                                             <v-img :src="post.image" height="200"></v-img>
                                             <v-card-actions>
