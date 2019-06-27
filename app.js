@@ -30,7 +30,18 @@ var app = new Vue({
     },
     methods: {
         delPost: function (post) {
-            
+            fetch(`${this.serverUrl}/posts/${post._id}`, {
+                method: "DELETE"
+            }).then(function (response) {
+                if (response.status == 204) {
+                    console.log("It worked!");
+                    app.getPosts();
+                } else if (response.status == 400) {
+                    response.json().then(function (data) {
+                        alert(data.msg);
+                    });
+                }
+            });
         },
         keyEvents: function (event) {
             console.log(event.which);
