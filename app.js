@@ -66,7 +66,6 @@ var app = new Vue({
             } else {
                 this.secretKey = "";
             }
-            console.log(this.secretKey);
         },
         getPosts: function () {
             fetch(this.serverUrl + "/posts").then(function(res) {
