@@ -30,8 +30,8 @@ var app = new Vue({
         editId: "",
 
         secretKey: "",
-        // serverUrl: "https://gbrack-collectors-blog.herokuapp.com",
-        serverUrl: "http://localhost:8080",
+        serverUrl: "https://gbrack-collectors-blog.herokuapp.com",
+        // serverUrl: "http://localhost:8080",
     },
     created: function () {
         this.getPosts();
