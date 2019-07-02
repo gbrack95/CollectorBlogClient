@@ -46,6 +46,9 @@
                                                     {{post.title}}
                                                 </div>
                                                 <v-spacer></v-spacer>
+                                                <v-btn icon v-if="showDel" @click="getPostById(post)">
+                                                    <v-icon>edit</v-icon>
+                                                </v-btn>
                                                 <v-btn icon v-if="showDel" @click="delPost(post)">
                                                     <v-icon>delete</v-icon>
                                                 </v-btn>
@@ -120,44 +123,49 @@
                             <v-flex xs3></v-flex>
                         </v-layout>
                     </v-container>
-                    <!-- <div>Collector's Blog</div>
-                    <button @click="page = 'home'">Home</button>
-                    <button @click="page = 'post'">Post</button> <br>
-
-                    <div v-if="page == 'home'">
-                        <select v-model="selectedCategory">
-                            <option
-                                v-for="category in categories"
-                                :value="category"
-                                >
-                                {{category}}
-                            </option>
-                        </select>
-                        {{selectedCategory}}
-                        <div v-for="post in sortedPosts">
-                            <img :src="post.image" alt="shoes" width="300" height="300">
-                            <div>{{post.title}}</div>
-                            <div>{{post.author}}</div>
-                            <div>{{post.category}}</div>
-                            <div>{{post.text}}</div>
-                            <div>{{post.date}}</div>
-                        </div>
-                    </div>
-
-                    <div v-if="page == 'post'">
-                        <div>Create Post</div>
-                        Title: <input v-model="newTitle" type="text"><br>
-                        Author: <input v-model="newAuthor" type="text"><br>
-                        Category:
-                        <select v-model="newCategory">
-                            <option v-for="category in categories" :value="category">
-                                {{category}}
-                            </option>
-                        </select><br>
-                        Image URL: <input v-model="newImage" type="text"><br>
-                        Text:<br> <textarea v-model="newText"></textarea><br>
-                        <button @click="addPost()">Post</button>
-                    </div> -->
+                    <v-container fluid v-if="page == 'edit'">
+                        <v-layout>
+                            <v-flex xs3></v-flex>
+                            <v-flex xs6 text-xs-center>
+                                <v-card>
+                                    <v-card-title class="justify-center">
+                                        <div class="headline">Edit Post</div>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-text-field
+                                            label="Enter Title"
+                                            v-model="editTitle">
+                                        </v-text-field>
+                                        <v-text-field
+                                            label="Enter Author"
+                                            v-model="editAuthor">
+                                        </v-text-field>
+                                        <v-select
+                                            :items="categories"
+                                            v-model="editCategory"
+                                            label="Select Category">
+                                        </v-select>
+                                        <v-text-field
+                                            label="Enter Image URL"
+                                            v-model="editImage">
+                                        </v-text-field>
+                                        <v-textarea
+                                            label="Enter text"
+                                            v-model="editText">
+                                        </v-textarea>
+                                    </v-card-text>
+                                    <v-btn
+                                        large
+                                        block
+                                        color="primary"
+                                        @click="updatePost()">
+                                        Save
+                                    </v-btn>
+                                </v-card>
+                            </v-flex>
+                            <v-flex xs3></v-flex>
+                        </v-layout>
+                    </v-container>
                 </v-content>
             </v-app>
         </div>

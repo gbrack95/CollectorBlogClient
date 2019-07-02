@@ -21,8 +21,17 @@ var app = new Vue({
         newCategory: "",
         newImage: "",
         newText: "",
+
+        editTitle: "",
+        editAuthor: "",
+        editCategory: "",
+        editImage: "",
+        editText: "",
+        editId: "",
+
         secretKey: "",
-        serverUrl: "https://gbrack-collectors-blog.herokuapp.com",
+        // serverUrl: "https://gbrack-collectors-blog.herokuapp.com",
+        serverUrl: "http://localhost:8080",
     },
     created: function () {
         this.getPosts();
@@ -67,6 +76,20 @@ var app = new Vue({
                 this.secretKey = "";
             }
         },
+        getPostById: function (post) {
+            app.editId = post._id;
+            fetch(`${this.serverUrl}/posts/${post._id}`).then(function(res) {
+                res.json().then(function(data) {
+                    console.log(data);
+                    app.editTitle = data.post.title;
+                    app.editAuthor = data.post.author;
+                    app.editCategory = data.post.category;
+                    app.editImage = data.post.image;
+                    app.editText = data.post.text;
+                    app.page = 'edit';
+                });
+            });
+        },
         getPosts: function () {
             fetch(this.serverUrl + "/posts").then(function(res) {
                 res.json().then(function(data) {
@@ -93,9 +116,34 @@ var app = new Vue({
             }).then(function () {
                 app.newTitle = "";
                 app.newAuthor = "";
-                app.newAuthor = "";
+                app.newCategory = "";
                 app.newImage = "";
                 app.newText = "";
+                app.page = "home";
+                app.getPosts();
+            });
+        },
+        updatePost: function() {
+            var editPost = {
+                title: this.editTitle,
+                author: this.editAuthor,
+                category: this.editCategory,
+                date: new Date(),
+                image: this.editImage,
+                text: this.editText
+            };
+            fetch(`${this.serverUrl}/posts/${this.editId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(editPost)
+            }).then(function () {
+                app.editTitle = "";
+                app.editAuthor = "";
+                app.editCategory = "";
+                app.editImage = "";
+                app.editText = "";
                 app.page = "home";
                 app.getPosts();
             });
